@@ -1,8 +1,43 @@
-# CVBasic compiler v0.7.1
+# CVBasic — Roy Antaw’s fork
+
+## About this fork and getting started
+
+This is Roy Antaw's fork of [nanochess/CVBasic](https://github.com/nanochess/CVBasic). The compiler and its original attribution are retained. The checked-in compiler identifies itself as `v0.8.0 Nov/12/2024`. Parts of the inherited documentation predate that version; this is not a claim about the latest upstream release.
+
+From this repository's root, with a C compiler and Make installed:
+
+```bash
+git clone https://github.com/royedmund/CVBasic.git
+cd CVBasic
+make
+make check
+```
+
+`make check` compiles the supplied `viboritas.bas` example to assembly; it does not assemble a ROM or run an emulator. Use the platform-specific commands below for that next step.
+
+## Repository navigation
+
+| Location | Purpose |
+| --- | --- |
+| Root `.c` / `.h` files | Compiler and processor backends |
+| Root `*_prologue.asm` / `*_epilogue.asm` | Target runtime support; keep beside the compiler for the documented workflow |
+| [manual.txt](manual.txt) | Language manual |
+| [TI-99/4A guide](README%20-%20TI99.md) | TI-specific assembly and cartridge packaging |
+| [examples/](examples/) | Sample BASIC programs |
+| [utility/](utility/), [contrib/](contrib/) | Supporting tools and contributions |
+| [gasm80/](gasm80/) | Included assembler files; see its own build instructions |
+| [old/](old/) | Historical files |
+| [LICENSE.txt](LICENSE.txt) | Compiler licence |
+
+The source layout matches the Makefile and runtime-file lookup; reorganising it requires coordinated build changes.
+
+---
+
+## Original project guide
 *(c) Copyright 2024 Óscar Toledo Gutiérrez*
 *https://nanochess.org/*
 
-CVBasic is a BASIC language cross-compiler with a syntax alike to QBasic originally written for the Colecovision video game console.
+CVBasic is a BASIC language cross-compiler with a syntax similar to QBasic originally written for the Colecovision video game console.
 
 The CVBasic compiler can create programs up to 1 MB using the BANK statements (using 16K bank switching on most platforms, 8k on TI-99/4A). 
 
@@ -76,7 +111,7 @@ Using CVBasic to compile a Colecovision program:
     cvbasic game.bas game.asm
     gasm80 game.asm -o game.rom -l game.lst
 
-You need to assemble the output file using Gasm80 available from [http://github.com/nanochess/gasm80](http://github.com/nanochess/gasm80) (this assembler serves for all the platforms, including Creativision based on 6502 CPU)
+You need to assemble the output file using Gasm80 available from [Gasm80](https://github.com/nanochess/gasm80) (this assembler serves for all the platforms, including Creativision based on 6502 CPU)
 
 Using CVBasic to compile a Sega SG1000/SC3000 program:
 
@@ -144,7 +179,7 @@ Using CVBasic to compile a Texas Instruments TI-99/4A program:
     
 You require Python3 and the utilities from the xdt99 tool suite: [https://github.com/endlos99/xdt99](https://github.com/endlos99/xdt99)
     
-The target is a stock TI-99/4A system with 32k memory expansion and joysticks. The cartridge binary can be used directly with the online emulator [js99er.net](js99er.net) or Classic99, and can be packed into an RPK for MAME (see README - TI99.md).
+The target is a stock TI-99/4A system with 32k memory expansion and joysticks. The cartridge binary can be used directly with the online emulator [js99er.net](https://js99er.net) or Classic99, and can be packed into an RPK for MAME (see README - TI99.md).
 
 Using CVBasic to compile a NABU PC program:
 
@@ -155,13 +190,13 @@ Using CVBasic to compile a NABU PC program:
     cvbasic --nabu -cpm game.bas game.asm
     gasm80 game.asm -o game.com
 
-The .npz file is directlty usable by [MAME NABU port](https://github.com/ontheslab/nabu-mame-builds/releases) (put it in the nabu directory). The 000001.nabu name is important or it doesn't work. I've used the script _boot-built-in-adapter-local.sh_
+The .npz file is directly usable by [MAME NABU port](https://github.com/ontheslab/nabu-mame-builds/releases) (put it in the nabu directory). The 000001.nabu name is important or it doesn't work. I've used the script _boot-built-in-adapter-local.sh_
 
-I don't have tested the COM files for NABU CP/M yet.
+The NABU CP/M COM files were not tested in this snapshot.
 
 ### Notes
 
-The current official version is v0.7.0.
+This checkout builds compiler v0.8.0; consult upstream for current releases.
 
 All platforms have been tested in emulation.
 
@@ -187,20 +222,20 @@ The Tatung Einstein can only use binaries up to 32 kb, keyboard is handled as co
 
 The Casio PV-2000 can only use binaries up to 16 kb, the keyboard and joystick are controller 1, and it can emulate the Colecovision keypad (CONT1.KEY only) using the keys 0-9, Home/Cls and Return.
 
-The Creativision can only use binaries up to 32 kb, the joysticks are controller 1 and controller 2, and it can emulate the Coleocovision keypad (CONT1.KEY only) using the keys 0-9, Left and RETN.
+The Creativision can only use binaries up to 32 kb, the joysticks are controller 1 and controller 2, and it can emulate the Colecovision keypad (CONT1.KEY only) using the keys 0-9, Left and RETN.
 
 The TI-99/4A can only generate non-banked binaries up to 24 kb. When banking, the fixed space is 24k and pages are 8k. Both joysticks are supported with a single button. The second button is simulated on the keyboard with control for player 1 and fctn for player 2. CONT1.KEY will also return uppercase ASCII characters from the keyboard in addition to the stock 0-9, #, * for compatibility with Coleco programs. No keypad is implemented for controller 2 - only the joystick. The program supports FCTN-= (Alt-= on PC emulation) to reset.
 
 The NABU PC can only use binaries up to 32 kb, joysticks can be used for both controllers, keyboard arrows are handled as controller 1, and it can also emulate the Colecovision keypad (CONT1.KEY only) using the keys 0-9, Del and Enter.
 
-Many people is developing games using CVBasic, feel free to check some of these examples at the [AtariAge Colecovision Programming forum](https://forums.atariage.com/forum/55-colecovision-programming/)
+Many people are developing games using CVBasic, feel free to check some of these examples at the [AtariAge Colecovision Programming forum](https://forums.atariage.com/forum/55-colecovision-programming/)
 
 
 ### Supporting the developer
 
 If you find CVBasic useful, please show your appreciation making a donation via Paypal ($9 USD suggested) to b-i+y-u+b-i (at) gmail.com
 
-If you find a bug, please report it to the same email address, and I'll try to look into it. Because lack of time I cannot guarantee it will be corrected.
+If you find a bug, please report it to the same email address, and I'll try to look into it. Because of limited time, I cannot guarantee that it will be corrected.
 
 You can also get my book **Programming Games for Colecovision** including an introductory course to game programming with CVBasic and full examples with source code: Game of Ball, Monkey Moon, Space Raider, Bouncy Cube, and Dungeon Warrior.
 
