@@ -1,3 +1,7 @@
+# CVBasic TI-99/4A guide
+
+[Back to the main guide](README.md). These notes describe the TI-99/4A support in this checkout; hardware/emulator testing is separate from compiling the host compiler.
+
 The TI99 support is still experimental and in development.
 
 Currently the following demos work:
@@ -39,7 +43,7 @@ You can also pass a name for the cartridge for the selection screen, up to 20 ch
 
 The resulting cartridge can be used directly on Classic99 and js99er. For MAME, it is necessary to create an "RPK" image. This is a zip file containing the ROM and a 'layout.xml'. The layout.xml contents are below (update with the correct romimage filename). Pack both files into a zip and rename from .zip to .rpk and it should work in MAME.
 
----------
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <romset version="1.0">
    <resources>
@@ -51,6 +55,6 @@ The resulting cartridge can be used directly on Classic99 and js99er. For MAME, 
       </pcb>
    </configuration>
 </romset>
----------
+```
 
 The programs will no longer work from disk. If you have a need for that, let me know, we can add a configuration switch, but it is much more limited.
